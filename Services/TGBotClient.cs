@@ -1,7 +1,6 @@
-﻿using devdebug.Jobs;
+﻿using Quartz;
 using Quartz.Impl;
-using Quartz;
-using System.Reflection.Metadata;
+using tgjobs.Jobs;
 
 namespace tgjobs.Services
 {
