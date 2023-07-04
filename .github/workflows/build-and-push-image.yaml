@@ -57,4 +57,4 @@ jobs:
           port: ${{ secrets.SERVERPORT }}
           script: 
             cd /home/dev;
-            docker-compose pull && docker-compose -f docker-compose-tgjobs.yaml up -d;
+            docker-compose -f docker-compose-tgjobs.yaml up -d;
