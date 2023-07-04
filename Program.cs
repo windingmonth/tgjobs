@@ -1,3 +1,5 @@
+using tgjobs.Services;
+
 namespace tgjobs
 {
     public class Program
@@ -9,7 +11,7 @@ namespace tgjobs
             // Add services to the container.
 
             builder.Services.AddControllers();
-
+            builder.Services.AddSingleton<TGBotClient>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -18,6 +20,9 @@ namespace tgjobs
 
 
             app.MapControllers();
+
+            var botClient = app.Services.GetRequiredService<TGBotClient>();
+            botClient.Start();
 
             app.Run();
         }
