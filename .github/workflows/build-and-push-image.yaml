@@ -4,8 +4,6 @@ name: build-and-push-image
 on:
   push: # 推送的时候触发
     branches: [ "main" ] # 推送的分支
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
  
