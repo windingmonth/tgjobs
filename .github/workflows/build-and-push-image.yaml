@@ -36,7 +36,7 @@ jobs:
         run: |
           docker version
           # 登录docker镜像仓库
-          docker login --username=${{ secrets.DOCKER_NAME }} --password=${{ secrets.DOCKER_PASSWORD }} hub.docker.com
+          docker login --username=${{ secrets.DOCKER_NAME }} --password=${{ secrets.DOCKER_PASSWORD }} 
           docker info
           # 使用Dockerfile构建镜像  
           docker build . --tag windingmonth/tgjobs
