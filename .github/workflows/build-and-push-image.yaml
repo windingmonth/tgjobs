@@ -46,3 +46,15 @@ jobs:
       # 列出所有镜像    
       - name: Docker Images Lst 
         run: docker images
+        
+      # 部署到腾讯云服务器  
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVERHOST }}
+          username: ${{ secrets.SERVERUSERNAME }}
+          password: ${{ secrets.SERVERPASSWORD }}
+          port: ${{ secrets.SERVERPORT }}
+          script: 
+            cd /home/dev;
+            docker-compose pull && docker-compose -f docker-compose-tgjobs.yaml up -d;
