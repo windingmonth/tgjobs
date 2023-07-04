@@ -40,8 +40,8 @@ jobs:
         # 用于登录docker以便我们后续上传镜像到自己的镜像仓库
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.USERMAME }} # 镜像仓库用户名
-          password: ${{ secrets.PASSWORD }} # 镜像仓库密码
+          username: ${{ secrets.DOCKER_NAME }} # 镜像仓库用户名
+          password: ${{ secrets.DOCKER_PASSWORD }} # 镜像仓库密码
  
       - name: Build the Docker image
         run: |
