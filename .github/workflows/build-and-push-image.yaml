@@ -36,7 +36,7 @@ jobs:
       # https://github.com/docker/login-action
       - name: login to ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
-        uses: actions/docker/login@master 
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         # 用于登录docker以便我们后续上传镜像到自己的镜像仓库
         with:
           registry: ${{ env.REGISTRY }}
