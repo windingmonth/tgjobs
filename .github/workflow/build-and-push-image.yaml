@@ -1,0 +1,59 @@
+# 工作流名称
+name: build-and-push-image
+ 
+on:
+  push: # 推送的时候触发
+    branches: [ "main" ] # 推送的分支
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ "main" ]
+ 
+env:
+  # 仓库地址
+  REGISTRY: hub.docker.com
+  IMAGE_NAME: windingmonth/tgjobs
+  IMAGE_TAG: latest
+ 
+ 
+jobs:
+  build:
+ 
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+ 
+    steps:
+      # 将远程仓库中的源代码领取到workfile自动化构建脚本运行的服务器
+      - name: Checkout repository
+        uses: actions/checkout@v3 
+ 
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: login to ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: actions/docker/login@master 
+        # 用于登录docker以便我们后续上传镜像到自己的镜像仓库
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.USERMAME }} # 镜像仓库用户名
+          password: ${{ secrets.PASSWORD }} # 镜像仓库密码
+ 
+      - name: Build the Docker image
+        run: |
+          docker version
+          docker info
+          # 登录docker镜像仓库
+          # docker login --username=${{ secrets.USERMAME }} --password=${{ secrets.PASSWORD }} hub.docker.com
+          # 使用Dockerfile构建镜像  
+          docker build . --tag windingmonth/tgjobs
+          # 推送镜像到镜像仓库
+          docker push windingmonth/tgjobs
+ 
+      # 列出所有镜像    
+      - name: Docker Images Lst 
+        run: docker images
