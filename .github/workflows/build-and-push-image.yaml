@@ -32,23 +32,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3 
  
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: login to ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        # 用于登录docker以便我们后续上传镜像到自己的镜像仓库
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKER_NAME }} # 镜像仓库用户名
-          password: ${{ secrets.DOCKER_PASSWORD }} # 镜像仓库密码
- 
       - name: Build the Docker image
         run: |
           docker version
-          docker info
           # 登录docker镜像仓库
-          # docker login --username=${{ secrets.USERMAME }} --password=${{ secrets.PASSWORD }} hub.docker.com
+          docker login --username=${{ secrets.DOCKER_NAME }} --password=${{ secrets.DOCKER_PASSWORD }} hub.docker.com
+          docker info
           # 使用Dockerfile构建镜像  
           docker build . --tag windingmonth/tgjobs
           # 推送镜像到镜像仓库
